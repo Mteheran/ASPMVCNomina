@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="456ac2df81fd4dc798473c144e462121" Name="Diagram1">
+        <EntityTypeShape EntityType="NOMIPROModel.Cargo" Width="1.5" PointX="0.75" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="NOMIPROModel.Control_Pago" Width="1.5" PointX="3" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="NOMIPROModel.Empleado" Width="1.5" PointX="3" PointY="8.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="NOMIPROModel.Hora_Adicional" Width="1.5" PointX="0.75" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="NOMIPROModel.Nomina" Width="1.5" PointX="5.25" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="NOMIPROModel.Parafiscal" Width="1.5" PointX="0.75" PointY="5.375" IsExpanded="true" />
+        <AssociationConnector Association="NOMIPROModel.FK_Id_Cargo" ManuallyRouted="false" />
+        <AssociationConnector Association="NOMIPROModel.Fk_Id_Control_Pago" ManuallyRouted="false" />
+        <AssociationConnector Association="NOMIPROModel.FK_Id_hora_Adicional" ManuallyRouted="false" />
+        <AssociationConnector Association="NOMIPROModel.FK_Id_Parafiscal" ManuallyRouted="false" />
+        <AssociationConnector Association="NOMIPROModel.Fk_Id_Empleado" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

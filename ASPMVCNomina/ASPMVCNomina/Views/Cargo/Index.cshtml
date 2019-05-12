@@ -1,0 +1,67 @@
+﻿@model IEnumerable<ASPMVCNomina.NominaData.Cargo>
+
+@{
+    ViewBag.Title = "Cargos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var strign = $"{ViewBag.Title}";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<p>
+    @Html.ActionLink("Crear Cargo", "Create")
+</p>
+<div>
+    @using (Html.BeginForm("Search", "Cargo"))
+    {
+        <input id="txtSearch" name="txtSearch" type="text" />
+        <button class="btn btn-primary" type="submit">Buscar</button>
+    }
+
+    @if (ViewBag.Search == true)
+    { 
+        @Html.ActionLink("Eliminar filtro", "Index");                
+    }
+</div>
+<table class="table table-light">
+    <thead class="thead-light">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Nombre)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Estado)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Valor_Cargo)
+        </th>
+        <th></th>
+    </tr>
+        </thead>
+
+    <tbody >
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nombre)
+                </td>
+                <td>
+                    <span class="@ASPMVCNomina.Helpers.EstadoCargoHelper.getStyleEstado(Html.DisplayFor(modelItem => item.Estado).ToString())">
+                        @ASPMVCNomina.Helpers.EstadoCargoHelper.getEstado(Html.DisplayFor(modelItem => item.Estado).ToString())
+                    </span>
+                </td>
+                <td>                    
+                   @ASPMVCNomina.Helpers.SalaryAmountHelper.Convert(Html.DisplayFor(modelItem => item.Valor_Cargo).ToString())                    
+                </td>
+                <td>
+                    @Html.ActionLink("Editar", "Edit", new { id = item.Id_Cargo }) |
+                    @Html.ActionLink("Detalle", "Details", new { id = item.Id_Cargo }) |
+                    @Html.ActionLink("Eliminar", "Delete", new { id = item.Id_Cargo })
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>

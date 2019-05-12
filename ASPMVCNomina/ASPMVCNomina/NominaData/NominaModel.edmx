@@ -1,0 +1,407 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="NOMIPROModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Cargo">
+          <Key>
+            <PropertyRef Name="Id_Cargo" />
+          </Key>
+          <Property Name="Id_Cargo" Type="int" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="45" />
+          <Property Name="Estado" Type="int" />
+          <Property Name="Valor_Cargo" Type="decimal" Precision="38" Scale="0" />
+        </EntityType>
+        <EntityType Name="Control_Pago">
+          <Key>
+            <PropertyRef Name="Id_Control_Pago" />
+          </Key>
+          <Property Name="Id_Control_Pago" Type="int" Nullable="false" />
+          <Property Name="Id_Parafiscal" Type="int" />
+          <Property Name="Id_Hora_Adicional" Type="int" />
+        </EntityType>
+        <EntityType Name="Empleado">
+          <Key>
+            <PropertyRef Name="Id_Empleado" />
+          </Key>
+          <Property Name="Id_Empleado" Type="int" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="45" />
+          <Property Name="Apellido" Type="varchar" MaxLength="45" />
+          <Property Name="Correo" Type="varchar" MaxLength="45" />
+          <Property Name="Telefono" Type="int" />
+          <Property Name="Numero_De_Documento" Type="int" />
+          <Property Name="Tipo_De_Documento" Type="int" />
+          <Property Name="Id_Cargo" Type="int" />
+          <Property Name="Estado" Type="int" />
+        </EntityType>
+        <EntityType Name="Hora_Adicional">
+          <Key>
+            <PropertyRef Name="IdHora_Adicional" />
+          </Key>
+          <Property Name="IdHora_Adicional" Type="int" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="45" />
+          <Property Name="Valor_Hora" Type="decimal" Precision="38" Scale="0" />
+        </EntityType>
+        <EntityType Name="Nomina">
+          <Key>
+            <PropertyRef Name="Id_Nomina" />
+          </Key>
+          <Property Name="Id_Nomina" Type="int" Nullable="false" />
+          <Property Name="Valor_Apagar" Type="decimal" Precision="38" Scale="0" />
+          <Property Name="Subtotal" Type="decimal" Precision="38" Scale="0" />
+          <Property Name="Mes" Type="varchar" MaxLength="45" />
+          <Property Name="Id_Empleado" Type="int" />
+          <Property Name="Id_Control_Pago" Type="int" />
+        </EntityType>
+        <EntityType Name="Parafiscal">
+          <Key>
+            <PropertyRef Name="Id_Parafiscal" />
+          </Key>
+          <Property Name="Id_Parafiscal" Type="int" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="45" />
+          <Property Name="Valor" Type="varchar" MaxLength="45" />
+        </EntityType>
+        <Association Name="FK_Id_Cargo">
+          <End Role="Cargo" Type="Self.Cargo" Multiplicity="0..1" />
+          <End Role="Empleado" Type="Self.Empleado" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cargo">
+              <PropertyRef Name="Id_Cargo" />
+            </Principal>
+            <Dependent Role="Empleado">
+              <PropertyRef Name="Id_Cargo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Fk_Id_Control_Pago">
+          <End Role="Control_Pago" Type="Self.Control_Pago" Multiplicity="0..1" />
+          <End Role="Nomina" Type="Self.Nomina" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Control_Pago">
+              <PropertyRef Name="Id_Control_Pago" />
+            </Principal>
+            <Dependent Role="Nomina">
+              <PropertyRef Name="Id_Control_Pago" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Fk_Id_Empleado">
+          <End Role="Empleado" Type="Self.Empleado" Multiplicity="0..1" />
+          <End Role="Nomina" Type="Self.Nomina" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Empleado">
+              <PropertyRef Name="Id_Empleado" />
+            </Principal>
+            <Dependent Role="Nomina">
+              <PropertyRef Name="Id_Empleado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Id_hora_Adicional">
+          <End Role="Hora_Adicional" Type="Self.Hora_Adicional" Multiplicity="0..1" />
+          <End Role="Control_Pago" Type="Self.Control_Pago" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Hora_Adicional">
+              <PropertyRef Name="IdHora_Adicional" />
+            </Principal>
+            <Dependent Role="Control_Pago">
+              <PropertyRef Name="Id_Hora_Adicional" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Id_Parafiscal">
+          <End Role="Parafiscal" Type="Self.Parafiscal" Multiplicity="0..1" />
+          <End Role="Control_Pago" Type="Self.Control_Pago" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Parafiscal">
+              <PropertyRef Name="Id_Parafiscal" />
+            </Principal>
+            <Dependent Role="Control_Pago">
+              <PropertyRef Name="Id_Parafiscal" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="NOMIPROModelStoreContainer">
+          <EntitySet Name="Cargo" EntityType="Self.Cargo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Control_Pago" EntityType="Self.Control_Pago" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Empleado" EntityType="Self.Empleado" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Hora_Adicional" EntityType="Self.Hora_Adicional" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Nomina" EntityType="Self.Nomina" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Parafiscal" EntityType="Self.Parafiscal" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Id_Cargo" Association="Self.FK_Id_Cargo">
+            <End Role="Cargo" EntitySet="Cargo" />
+            <End Role="Empleado" EntitySet="Empleado" />
+          </AssociationSet>
+          <AssociationSet Name="Fk_Id_Control_Pago" Association="Self.Fk_Id_Control_Pago">
+            <End Role="Control_Pago" EntitySet="Control_Pago" />
+            <End Role="Nomina" EntitySet="Nomina" />
+          </AssociationSet>
+          <AssociationSet Name="Fk_Id_Empleado" Association="Self.Fk_Id_Empleado">
+            <End Role="Empleado" EntitySet="Empleado" />
+            <End Role="Nomina" EntitySet="Nomina" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Id_hora_Adicional" Association="Self.FK_Id_hora_Adicional">
+            <End Role="Hora_Adicional" EntitySet="Hora_Adicional" />
+            <End Role="Control_Pago" EntitySet="Control_Pago" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Id_Parafiscal" Association="Self.FK_Id_Parafiscal">
+            <End Role="Parafiscal" EntitySet="Parafiscal" />
+            <End Role="Control_Pago" EntitySet="Control_Pago" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="NOMIPROModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Cargo">
+          <Key>
+            <PropertyRef Name="Id_Cargo" />
+          </Key>
+          <Property Name="Id_Cargo" Type="Int32" Nullable="false" />
+          <Property Name="Nombre" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="Estado" Type="Int32" />
+          <Property Name="Valor_Cargo" Type="Decimal" Precision="38" Scale="0" />
+          <NavigationProperty Name="Empleadoes" Relationship="Self.FK_Id_Cargo" FromRole="Cargo" ToRole="Empleado" />
+        </EntityType>
+        <EntityType Name="Control_Pago">
+          <Key>
+            <PropertyRef Name="Id_Control_Pago" />
+          </Key>
+          <Property Name="Id_Control_Pago" Type="Int32" Nullable="false" />
+          <Property Name="Id_Parafiscal" Type="Int32" />
+          <Property Name="Id_Hora_Adicional" Type="Int32" />
+          <NavigationProperty Name="Nominas" Relationship="Self.Fk_Id_Control_Pago" FromRole="Control_Pago" ToRole="Nomina" />
+          <NavigationProperty Name="Hora_Adicional" Relationship="Self.FK_Id_hora_Adicional" FromRole="Control_Pago" ToRole="Hora_Adicional" />
+          <NavigationProperty Name="Parafiscal" Relationship="Self.FK_Id_Parafiscal" FromRole="Control_Pago" ToRole="Parafiscal" />
+        </EntityType>
+        <EntityType Name="Empleado">
+          <Key>
+            <PropertyRef Name="Id_Empleado" />
+          </Key>
+          <Property Name="Id_Empleado" Type="Int32" Nullable="false" />
+          <Property Name="Nombre" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="Apellido" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="Correo" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="Telefono" Type="Int32" />
+          <Property Name="Numero_De_Documento" Type="Int32" />
+          <Property Name="Tipo_De_Documento" Type="Int32" />
+          <Property Name="Id_Cargo" Type="Int32" />
+          <Property Name="Estado" Type="Int32" />
+          <NavigationProperty Name="Cargo" Relationship="Self.FK_Id_Cargo" FromRole="Empleado" ToRole="Cargo" />
+          <NavigationProperty Name="Nominas" Relationship="Self.Fk_Id_Empleado" FromRole="Empleado" ToRole="Nomina" />
+        </EntityType>
+        <EntityType Name="Hora_Adicional">
+          <Key>
+            <PropertyRef Name="IdHora_Adicional" />
+          </Key>
+          <Property Name="IdHora_Adicional" Type="Int32" Nullable="false" />
+          <Property Name="Nombre" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="Valor_Hora" Type="Decimal" Precision="38" Scale="0" />
+          <NavigationProperty Name="Control_Pago" Relationship="Self.FK_Id_hora_Adicional" FromRole="Hora_Adicional" ToRole="Control_Pago" />
+        </EntityType>
+        <EntityType Name="Nomina">
+          <Key>
+            <PropertyRef Name="Id_Nomina" />
+          </Key>
+          <Property Name="Id_Nomina" Type="Int32" Nullable="false" />
+          <Property Name="Valor_Apagar" Type="Decimal" Precision="38" Scale="0" />
+          <Property Name="Subtotal" Type="Decimal" Precision="38" Scale="0" />
+          <Property Name="Mes" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="Id_Empleado" Type="Int32" />
+          <Property Name="Id_Control_Pago" Type="Int32" />
+          <NavigationProperty Name="Control_Pago" Relationship="Self.Fk_Id_Control_Pago" FromRole="Nomina" ToRole="Control_Pago" />
+          <NavigationProperty Name="Empleado" Relationship="Self.Fk_Id_Empleado" FromRole="Nomina" ToRole="Empleado" />
+        </EntityType>
+        <EntityType Name="Parafiscal">
+          <Key>
+            <PropertyRef Name="Id_Parafiscal" />
+          </Key>
+          <Property Name="Id_Parafiscal" Type="Int32" Nullable="false" />
+          <Property Name="Nombre" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="Valor" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Control_Pago" Relationship="Self.FK_Id_Parafiscal" FromRole="Parafiscal" ToRole="Control_Pago" />
+        </EntityType>
+        <Association Name="FK_Id_Cargo">
+          <End Role="Cargo" Type="Self.Cargo" Multiplicity="0..1" />
+          <End Role="Empleado" Type="Self.Empleado" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cargo">
+              <PropertyRef Name="Id_Cargo" />
+            </Principal>
+            <Dependent Role="Empleado">
+              <PropertyRef Name="Id_Cargo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Fk_Id_Control_Pago">
+          <End Role="Control_Pago" Type="Self.Control_Pago" Multiplicity="0..1" />
+          <End Role="Nomina" Type="Self.Nomina" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Control_Pago">
+              <PropertyRef Name="Id_Control_Pago" />
+            </Principal>
+            <Dependent Role="Nomina">
+              <PropertyRef Name="Id_Control_Pago" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Id_hora_Adicional">
+          <End Role="Hora_Adicional" Type="Self.Hora_Adicional" Multiplicity="0..1" />
+          <End Role="Control_Pago" Type="Self.Control_Pago" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Hora_Adicional">
+              <PropertyRef Name="IdHora_Adicional" />
+            </Principal>
+            <Dependent Role="Control_Pago">
+              <PropertyRef Name="Id_Hora_Adicional" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Id_Parafiscal">
+          <End Role="Parafiscal" Type="Self.Parafiscal" Multiplicity="0..1" />
+          <End Role="Control_Pago" Type="Self.Control_Pago" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Parafiscal">
+              <PropertyRef Name="Id_Parafiscal" />
+            </Principal>
+            <Dependent Role="Control_Pago">
+              <PropertyRef Name="Id_Parafiscal" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Fk_Id_Empleado">
+          <End Role="Empleado" Type="Self.Empleado" Multiplicity="0..1" />
+          <End Role="Nomina" Type="Self.Nomina" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Empleado">
+              <PropertyRef Name="Id_Empleado" />
+            </Principal>
+            <Dependent Role="Nomina">
+              <PropertyRef Name="Id_Empleado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Cargoes" EntityType="Self.Cargo" />
+          <EntitySet Name="Control_Pago" EntityType="Self.Control_Pago" />
+          <EntitySet Name="Empleadoes" EntityType="Self.Empleado" />
+          <EntitySet Name="Hora_Adicional" EntityType="Self.Hora_Adicional" />
+          <EntitySet Name="Nominas" EntityType="Self.Nomina" />
+          <EntitySet Name="Parafiscals" EntityType="Self.Parafiscal" />
+          <AssociationSet Name="FK_Id_Cargo" Association="Self.FK_Id_Cargo">
+            <End Role="Cargo" EntitySet="Cargoes" />
+            <End Role="Empleado" EntitySet="Empleadoes" />
+          </AssociationSet>
+          <AssociationSet Name="Fk_Id_Control_Pago" Association="Self.Fk_Id_Control_Pago">
+            <End Role="Control_Pago" EntitySet="Control_Pago" />
+            <End Role="Nomina" EntitySet="Nominas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Id_hora_Adicional" Association="Self.FK_Id_hora_Adicional">
+            <End Role="Hora_Adicional" EntitySet="Hora_Adicional" />
+            <End Role="Control_Pago" EntitySet="Control_Pago" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Id_Parafiscal" Association="Self.FK_Id_Parafiscal">
+            <End Role="Parafiscal" EntitySet="Parafiscals" />
+            <End Role="Control_Pago" EntitySet="Control_Pago" />
+          </AssociationSet>
+          <AssociationSet Name="Fk_Id_Empleado" Association="Self.Fk_Id_Empleado">
+            <End Role="Empleado" EntitySet="Empleadoes" />
+            <End Role="Nomina" EntitySet="Nominas" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="NOMIPROModelStoreContainer" CdmEntityContainer="Entities">
+          <EntitySetMapping Name="Cargoes">
+            <EntityTypeMapping TypeName="NOMIPROModel.Cargo">
+              <MappingFragment StoreEntitySet="Cargo">
+                <ScalarProperty Name="Id_Cargo" ColumnName="Id_Cargo" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="Valor_Cargo" ColumnName="Valor_Cargo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Control_Pago">
+            <EntityTypeMapping TypeName="NOMIPROModel.Control_Pago">
+              <MappingFragment StoreEntitySet="Control_Pago">
+                <ScalarProperty Name="Id_Control_Pago" ColumnName="Id_Control_Pago" />
+                <ScalarProperty Name="Id_Parafiscal" ColumnName="Id_Parafiscal" />
+                <ScalarProperty Name="Id_Hora_Adicional" ColumnName="Id_Hora_Adicional" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Empleadoes">
+            <EntityTypeMapping TypeName="NOMIPROModel.Empleado">
+              <MappingFragment StoreEntitySet="Empleado">
+                <ScalarProperty Name="Id_Empleado" ColumnName="Id_Empleado" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Apellido" ColumnName="Apellido" />
+                <ScalarProperty Name="Correo" ColumnName="Correo" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="Numero_De_Documento" ColumnName="Numero_De_Documento" />
+                <ScalarProperty Name="Tipo_De_Documento" ColumnName="Tipo_De_Documento" />
+                <ScalarProperty Name="Id_Cargo" ColumnName="Id_Cargo" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Hora_Adicional">
+            <EntityTypeMapping TypeName="NOMIPROModel.Hora_Adicional">
+              <MappingFragment StoreEntitySet="Hora_Adicional">
+                <ScalarProperty Name="IdHora_Adicional" ColumnName="IdHora_Adicional" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Valor_Hora" ColumnName="Valor_Hora" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Nominas">
+            <EntityTypeMapping TypeName="NOMIPROModel.Nomina">
+              <MappingFragment StoreEntitySet="Nomina">
+                <ScalarProperty Name="Id_Nomina" ColumnName="Id_Nomina" />
+                <ScalarProperty Name="Valor_Apagar" ColumnName="Valor_Apagar" />
+                <ScalarProperty Name="Subtotal" ColumnName="Subtotal" />
+                <ScalarProperty Name="Mes" ColumnName="Mes" />
+                <ScalarProperty Name="Id_Empleado" ColumnName="Id_Empleado" />
+                <ScalarProperty Name="Id_Control_Pago" ColumnName="Id_Control_Pago" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Parafiscals">
+            <EntityTypeMapping TypeName="NOMIPROModel.Parafiscal">
+              <MappingFragment StoreEntitySet="Parafiscal">
+                <ScalarProperty Name="Id_Parafiscal" ColumnName="Id_Parafiscal" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Valor" ColumnName="Valor" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
